@@ -138,11 +138,7 @@ def regressor(train_features, train_labels, test_features, test_labels, headers,
     from sklearn.ensemble import RandomForestRegressor
 
     model = RandomForestRegressor (n_estimators=500, criterion='mse', random_state=42, max_features=7, n_jobs=60,
-                                   oob_score=True,
-                                   min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0,
-                                   max_leaf_nodes=None,
-                                   min_impurity_decrease=0.0, bootstrap=True, verbose=0,
-                                   warm_start=False, ccp_alpha=0.0, max_samples=None)
+                                   oob_score=True)
 
     print ('fit random forest regressor model')
 
