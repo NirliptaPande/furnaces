@@ -1,3 +1,5 @@
+#Compiles data using split npy files from split.py and fills in median values because values are skewed
+#Note: If normally distributed data, use mean, else median
 import numpy as np
 #from multiprocessing import Pool
 land = np.load('../data/land_coords.npy')
@@ -15,4 +17,8 @@ for index in indices:
         if np.any(np.logical_and((lat==land[:,0]),(lon==land[:,1])))==True:
             temp[c*108:(c+1)*108] = arr[i*108:(i+1)*108]
             c+=1
-np.save('../data/train_sans_ocean.npy',temp)
+col_median = np.nanmedian(temp,axis = 0)
+col_median = np.reshape(col_median,((-1,1)))
+idx = np.where(np.isnan(temp))
+temp[idx] = np.take(col_median,idx[1])
+np.save('../data/train_median.npy',temp)

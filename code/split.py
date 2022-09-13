@@ -11,7 +11,7 @@ def split_train(index):
 
 if __name__ == '__main__':
     indices = np.arange(72)
-    global arr
+    #global arr
  #   arr = np.load('../data/test.pkl', allow_pickle='True')
  #   with Pool() as p:
  #       p.map(split_test,indices)
@@ -19,9 +19,9 @@ if __name__ == '__main__':
  #   p.join()
  #   del(arr)
  #   gc.collect()
-    arr = np.load('../data/train.pkl', allow_pickle='True')
+    arr = np.load('../data/test.pkl', allow_pickle='True')
     with Pool() as p:
-        p.map(split_train,indices)
+        p.map(split_test,indices)
     p.close()
     p.join()
     del(arr)
