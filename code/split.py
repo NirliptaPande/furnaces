@@ -11,7 +11,7 @@ def split_train(index):
 
 if __name__ == '__main__':
     indices = np.arange(72)
-    global arr
+    #global arr
  #   arr = np.load('../data/test.pkl', allow_pickle='True')
  #   with Pool() as p:
  #       p.map(split_test,indices)
