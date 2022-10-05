@@ -2,7 +2,9 @@
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import RandomizedSearchCV
-x_train=  np.load("/home/npande/Desktop/furnaces/data/train_zeros.npy")
+import joblib
+#x_train=  np.load("/home/npande/Desktop/furnaces/data/train_zeros.npy")
+x_train=  np.load("/home/npande/furnaces/data/train_zeros.npy")
 y_train = x_train[:,15].copy()
 x_train = np.delete(x_train,[14,15,34,35,37],axis = 1)
     #0: 34 Livestock
@@ -10,9 +12,10 @@ x_train = np.delete(x_train,[14,15,34,35,37],axis = 1)
     #2: 37 pop_density
     #3: 14 GDP
     #4: 15 Ignition
-x_test=  np.load("/home/npande/Desktop/furnaces/data/test_zeros.npy")
-y_test = x_test[:,15].copy()
-x_test = np.delete(x_test,[14,15,34,35,37],axis = 1)
+#x_test=  np.load("/home/npande/Desktop/furnaces/data/test_zeros.npy")
+#x_test=  np.load("/home/npande/furnaces/data/test_zeros.npy")
+#y_test = x_test[:,15].copy()
+#x_test = np.delete(x_test,[14,15,34,35,37],axis = 1)
     #0: 34 Livestock
     #1: 35 road_density
     #2: 37 pop_density
@@ -26,22 +29,26 @@ x_test = np.delete(x_test,[14,15,34,35,37],axis = 1)
        'WDPA_fracCover', 'dtr', 'pet', 'tmx', 'wet', 'Biome', 'precip', 'topo']"""
 model = RandomForestRegressor()
 grid_params  = {
-    'bootstrap' : [True,False],
-    'n_estimators' : [50,100,250,400,600,850,1200,1500],
-    'criterion' : ['gini', 'entropy', 'log_loss'],
-    'min_samples_leaf' : [1,2,3,5],
-    'max_features' : [5,7,10],
+    'bootstrap' : [True,False],#whether to sample with replacement or not 
+    'n_estimators' : [50,100,250,400,600,850,1200,1500],# number of trees
+    'criterion' : ['squared_error', 'absolute_error', 'poisson'],#To decerease the impurity
+    'min_samples_leaf' : [1,3,5,7,10],
+    # A split point at any depth will only be considered if 
+    # it leaves at least min_samples_leaf training samples in both branches. 
+    #This may have the effect of smoothing the model, especially in regression.
+    'max_features' : [5,7,10], #To split a node, how many features to consider
     'warm_start': [True, False],
-    'min_impurity_decrease': [0.0, 0.2, 0.4, 0.6, 0.8],
-    'min_samples_split': [2, 3, 4, 5, 6, 7, 8]
+    'min_impurity_decrease': [0.0, 0.03, 0.07, 0.1, 0.13],#A node will split only if impurity decreases by at least
+    'min_samples_split': [2, 3, 4, 5, 6, 7, 8]#You should have 
+    #at least these many samples to split a node
 }
 random_search = RandomizedSearchCV(
     estimator = model, 
-    param_grids = grid_params,
+    param_distributions = grid_params,
     cv = 5,
-    n_jobs = -1,
+    n_jobs = 8,
     random_state = 42,
-    n_iter=1000, 
+    n_iter=1000,
     scoring='accuracy')
 #n_estimators=100,
 #  criterion='gini',
@@ -61,3 +68,6 @@ random_search = RandomizedSearchCV(
 # class_weight=None,
 #  ccp_alpha=0.0,
 #  max_samples=None)
+random_search.fit(x_train,y_train)
+print(random_search.best_params_)
+joblib.dump(random_search,'../../output/zero_random.pkl')
