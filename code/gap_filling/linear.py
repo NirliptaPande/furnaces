@@ -2,7 +2,22 @@
 import numpy as np
 #from mpl_toolkits.basemap import Basemap
 #import matplotlib.pyplot as plt
+from multiprocessing import Pool
 import gc
+def fill_mean(idx):
+      var = spatial[:,0:,0:,idx]
+      var_mean = np.nanmean(var,axis = 1)
+      np.nan_to_num(var_mean,nan = 0,copy = False)
+      inds = np.where(np.isnan(var))
+      var[inds] = np.take(var_mean,inds[1]
+      )#I don't think this line is correct, or will work for 3D
+      #the above line is supposed to fill in the mean values for each varible, 
+      # but if you can fill in 3D, you should be able to fill in 4D, you shouldn't need a loop
+      return var
+
+def fill_linear(idx):
+      var = spatial[:,0:,0:,idx]
+      
 train = np.load('../../data/train_sans_ocean.npy')
 pixels = train.shape[0]//108
 temp = np.reshape(train,(pixels,-1,train.shape[1]))
@@ -22,3 +37,28 @@ spatial = np.reshape(train,(pixels,9,12,train.shape[1]))#converts the array into
       #dtype='object')
 #lat, lon, time don't need any interpolation
 #
+del(train)
+gc.collect()
+"""
+I think in the first part, I'll fill in the data with the monthly mean, in all NaNs
+"""
+#idxs = range(3,38,1)
+#with Pool() as pool:
+#     mean = pool.map( fill_mean, idxs)
+#pool.close()
+#pool.join()
+#np.save("../../data/month_mean.npy",mean)
+#del(mean)
+#gc.collect()
+"""
+0,1,2 don't need any interpolation,
+I'll fill in all the rest with mean of a certain pixel over a certain month, 
+if a certain pixel over a certain month is all NaN, I'll fill it with zeros
+I'll fill NaNs with zeros in ignition
+"""
+idxs = range(3,38,1)
+with Pool() as pool:
+      inter = pool.map(fill_linear,idxs)
+pool.close()
+pool.join()
+np.save("../../data/linear_month.npy")
