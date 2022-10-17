@@ -15,7 +15,7 @@ def rfreg(eco):
     joblib.dump(model, "../../output/month_mean/feature%s.joblib"%str(eco))
 
 train_x = np.load("../../data/train_monthmean.npy")
-
+train_x = np.reshape(train_x,(-1,train_x.shape[-1]))
 """
 Balancing the dataset because RF is really sensitive to it
 """
@@ -24,8 +24,6 @@ ign = np.nonzero(train_x[:,15])
 
 #ign_train  = train_x[ign]
 #no_ign_train = train_x[no_ign]
-"""I have absolutely no idea why ign is larger than no ign and if I should run the model or not"""
-
 new_no_ign = train_x[np.random.choice(no_ign[0],ign[0].shape,replace = False)]
 new_ign = train_x[np.random.choice(ign[0],ign[0].shape[0],replace = False)]
 x_train = np.concatenate((new_ign,new_no_ign),axis = 0)

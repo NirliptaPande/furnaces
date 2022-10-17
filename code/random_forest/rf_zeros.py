@@ -6,7 +6,8 @@ def rfreg(eco):
     xtrain = np.append(x_train,np.transpose([echoes[:,eco]]),axis = 1)
     model = RandomForestRegressor(n_estimators=500, criterion='squared_error', random_state=42,
                                      n_jobs=60, min_samples_split= 5,bootstrap=True,
-                                   max_features = 7,oob_score=True)# Note: I am aware that max_features shows an error, but it's not, it runs perfectly fine, it is supposed to accept int
+                                   max_features = 7,oob_score=True)
+    # Note: I am aware that max_features shows an error, but it's not, it runs perfectly fine, it is supposed to accept int
     model.fit(xtrain,train_y)
     joblib.dump(model, "../../output/zeros/feature%s.joblib"%str(eco))
 
