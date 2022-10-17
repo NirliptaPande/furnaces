@@ -1,3 +1,7 @@
+"""
+mm stands for monthly mean. 
+This script just replaces the file path of train_x in rf_zeros.py to the output from ../gap_filling/mean_loop.py which is stored in ../../data as train_monthmean.npy
+"""
 import gc
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
@@ -6,11 +10,11 @@ def rfreg(eco):
     xtrain = np.append(x_train,np.transpose([echoes[:,eco]]),axis = 1)
     model = RandomForestRegressor(n_estimators=500, criterion='squared_error', random_state=42,
                                      n_jobs=60, min_samples_split= 5,bootstrap=True,
-                                   max_features = 7,oob_score=True)# Note: I am aware that max_features shows an error, but it's not, it runs perfectly fine, it is supposed to accept int
+                                   max_features = 7,oob_score=True)# Note: I am aware that max_features shows an error, but it's not, it runs perfectly fine
     model.fit(xtrain,train_y)
-    joblib.dump(model, "../../output/zeros/feature%s.joblib"%str(eco))
+    joblib.dump(model, "../../output/month_mean/feature%s.joblib"%str(eco))
 
-train_x = np.load("../../data/train_zeros.npy")
+train_x = np.load("../../data/train_monthmean.npy")
 
 """
 Balancing the dataset because RF is really sensitive to it

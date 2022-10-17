@@ -5,7 +5,7 @@ import joblib
 
 def rf_test(eco):
     xtrain = np.append(x_train,np.transpose([echoes[:,eco]]),axis = 1)
-    model = RandomForestRegressor (n_estimators=500, criterion='squared_error', random_state=42, max_features=7, n_jobs=60,
+    model = RandomForestRegressor (n_estimators=500, criterion='squared_error', random_state=42, max_features='', n_jobs=60,
                                    oob_score=True)
     model.fit(xtrain,y_train)
     joblib.dump(model, "../output/feature%s.joblib"%str(eco))
