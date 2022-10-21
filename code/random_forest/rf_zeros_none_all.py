@@ -27,11 +27,11 @@ After deletion of variables in line 45, the x_train looks like
 ['agb 0', 'pft_fracCover 1', 'sm 2', 'pftCrop 3',
        'pftHerb 4', 'pftShrubBD 5', 'pftShrubNE 6', 'pftTreeBD 7', 'pftTreeBE 8',
        'pftTreeND 9', 'pftTreeNE 10', 'GDP 11', 'Distance_to_populated_areas 12',
-       'fPAR 13', 'vod_K_anomalies 14', 'WDPA_fracCover 15', 'dtr 16', 'pet 17', 'tmx 18', 'wet 19', 'Biome 20', 'precip 21',
-       'Livestock 22', 'road_density 23', 'pop_density 24']
-and we wish to remove, pftCrop 3, GDP 11, Distance_to_populated_areas 12, WDPA_fracCover15, livestock 22, road_density 23, pop_density 24
+       'fPAR 13', 'vod_K_anomalies 14', 'WDPA_fracCover 15', 'dtr 16', 'pet 17', 'tmx 18', 'wet 19', 'precip 20',
+       'Livestock 21', 'road_density 22', 'pop_density 23']
+and we wish to remove, pftCrop 3, GDP 11, Distance_to_populated_areas 12, WDPA_fracCover15, livestock 21, road_density 22, pop_density 23
 """
-x_train = np.delete(x_train,[3,11,12,15,22,23,24],axis = 1)
+x_train = np.delete(x_train,[3,11,12,15,21,22,23],axis = 1)
 model = RandomForestRegressor(n_estimators=500, criterion='squared_error', random_state=42,
                                     n_jobs=60, min_samples_split= 5,bootstrap=True,
                                 max_features = 7,oob_score=True)
