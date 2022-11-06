@@ -1,15 +1,16 @@
 import numpy as np
 import joblib
-from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as plt
+# from mpl_toolkits.basemap import Basemap
+# import matplotlib.pyplot as plt
 import gc
 def plot_feature(idx):
     xtest = np.append(x_test,np.transpose([echoes[:,idx]]),axis = 1)
     model = joblib.load('../output/zeros/feature%s.joblib'%idx)
     y_pred = model.predict(xtest)
-    y_pred_mean = np.mean(np.reshape(y_pred,(-1,57)),axis = 1)
-    err[idx] = np.divide(np.mean(((y_test-y_pred)**2)),np.mean(y_test**2))
-    err_mean[idx] = np.divide(np.mean(((y_test_mean-np.mean(y_pred))**2)),y_test_mean**2)
+    np.save('../output/zeros/y_pred_%s.npy'%str(idx),y_pred)
+    # y_pred_mean = np.mean(np.reshape(y_pred,(-1,57)),axis = 1)
+    # err[idx] = np.divide(np.mean(((y_test-y_pred)**2)),np.mean(y_test**2))
+    # err_mean[idx] = np.divide(np.mean(((y_test_mean-np.mean(y_pred))**2)),y_test_mean**2)
     # x = np.linspace(-89.5,90,720)
     # y = np.linspace(-179.5,180,1440)
     # lons,lats = np.meshgrid(y,x)
@@ -46,5 +47,5 @@ err_mean = np.zeros((7,1))
 x_test = np.delete(x_test,[0,1,2,6,14,15,16,18,19,21,22,23,24,25,26,27,32,34,35,36,37],axis = 1)
 for i in range(echoes.shape[1]):
     plot_feature(i)
-np.save('../output/zeros/err.npy',err)
-np.save('../output/zeros/err_mean.npy',err_mean)
+# np.save('../output/zeros/err.npy',err)
+# np.save('../output/zeros/err_mean.npy',err_mean)

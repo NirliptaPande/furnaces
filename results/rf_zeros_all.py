@@ -1,7 +1,7 @@
 import numpy as np
 import joblib
-from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as plt
+# from mpl_toolkits.basemap import Basemap
+# import matplotlib.pyplot as plt
 import gc
 x_test  = np.load('../data/test_zeros.npy')
 y_test = np.copy(x_test[:,15])
@@ -13,9 +13,11 @@ err_all_none = np.array([0.0,0.0,0.0,0.0])#all_nmse,all_mean, none_nmse,none_mea
 x_test = np.delete(x_test,[0,1,2,15,18,19,21,22,23,24,25,26,32,36],axis = 1)
 model = joblib.load('../output/zeros/feature_all.joblib')
 y_pred = model.predict(x_test)
-err_all_none[0] = np.divide(np.mean(((y_test-y_pred)**2)),np.mean(y_test**2))
-y_pred_mean = np.mean(np.reshape(y_pred,(-1,57)),axis = 1)
-err_all_none[1] = np.divide(np.mean(((y_test_mean-np.mean(y_pred))**2)),y_test_mean**2)
+np.save('../output/zeros/y_pred_all.npy',y_pred)
+
+# err_all_none[0] = np.divide(np.mean(((y_test-y_pred)**2)),np.mean(y_test**2))
+# y_pred_mean = np.mean(np.reshape(y_pred,(-1,57)),axis = 1)
+# err_all_none[1] = np.divide(np.mean(((y_test_mean-np.mean(y_pred))**2)),y_test_mean**2)
 # x = np.linspace(-89.5,90,720)
 # y = np.linspace(-179.5,180,1440)
 # lons,lats = np.meshgrid(y,x)
@@ -41,9 +43,10 @@ gc.collect()
 x_test = np.delete(x_test,[3,11,12,15,21,22,23],axis = 1)
 model = joblib.load('../output/zeros/feature_none.joblib')
 y_pred = model.predict(x_test)
-err_all_none[2] = np.divide(np.mean(((y_test-y_pred)**2)),np.mean(y_test**2))
-y_pred_mean = np.mean(np.reshape(y_pred,(-1,57)),axis = 1)
-err_all_none[3] = np.divide(np.mean(((y_test_mean-np.mean(y_pred))**2)),y_test_mean**2)
+# err_all_none[2] = np.divide(np.mean(((y_test-y_pred)**2)),np.mean(y_test**2))
+# y_pred_mean = np.mean(np.reshape(y_pred,(-1,57)),axis = 1)
+# err_all_none[3] = np.divide(np.mean(((y_test_mean-np.mean(y_pred))**2)),y_test_mean**2)
+np.save('../output/zeros/y_pred_none.npy',y_pred)
 # x = np.linspace(-89.5,90,720)
 # y = np.linspace(-179.5,180,1440)
 # lons,lats = np.meshgrid(y,x)
@@ -63,4 +66,4 @@ err_all_none[3] = np.divide(np.mean(((y_test_mean-np.mean(y_pred))**2)),y_test_m
 # plt.colorbar()
 # plt.savefig('../output/zeros/none.png')
 # plt.close()
-np.save('../output/zeros/err_all_none.npy',err_all_none)
+# np.save('../output/zeros/err_all_none.npy',err_all_none)
