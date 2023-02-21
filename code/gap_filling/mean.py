@@ -47,7 +47,7 @@ if __name__ == '__main__':
         #'Livestock 34', 'road_density 35', 'topo 36', 'pop_density 37'],
         #dtype='object')
     #lat, lon, time don't need any interpolation
-    #
+    #i
     del(train)
     gc.collect()
     """

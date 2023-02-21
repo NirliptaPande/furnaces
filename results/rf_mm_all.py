@@ -13,7 +13,7 @@ lon = np.reshape(space_time[:,1],(-1,57))[:,0]
 lat = np.reshape(space_time[:,0],(-1,57))[:,0]
 y_test_mean = np.mean(y_test)
 err_all_none = np.array([0.0,0.0,0.0,0.0])#all_nmse,all_mean, none_nmse,none_mean
-x_test = np.delete(x_test,[0,1,2,15,18,21,22,23,24,25,26,32,36],axis = 1)
+x_test = np.delete(x_test,[0,1,2,15,18,19,21,22,23,24,25,26,32,36],axis = 1)
 model = joblib.load('../output/month_mean/feature_all.joblib')
 y_pred = model.predict(x_test)
 np.save('../output/month_mean/y_pred_all.npy',y_pred)
