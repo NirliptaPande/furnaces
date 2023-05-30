@@ -7,6 +7,7 @@ import joblib
 x_train=  np.load("/home/npande/furnaces/data/train_zeros.npy")
 y_train = x_train[:,15].copy()
 x_train = np.delete(x_train,[14,15,34,35,37],axis = 1)
+<<<<<<< HEAD
     #0: 34 Livestock
     #1: 35 road_density
     #2: 37 pop_density
@@ -21,6 +22,8 @@ x_train = np.delete(x_train,[14,15,34,35,37],axis = 1)
     #2: 37 pop_density
     #3: 14 GDP
     #4: 15 Ignition
+=======
+>>>>>>> develop
 """['lat', 'lon', 'time', 'agb', 'pft_fracCover', 'sm', 'pftCrop',
        'pftHerb', 'pftShrubBD', 'pftShrubNE', 'pftTreeBD', 'pftTreeBE',
        'pftTreeND', 'pftTreeNE', 'Distance_to_populated_areas',
